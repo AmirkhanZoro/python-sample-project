@@ -1,8 +1,44 @@
+# Version control
 .git
+.gitignore
+.gitattributes
+
+# CI/CD and tooling (not needed at runtime)
 .gitlab-ci.yml
 Jenkinsfile
-.cache
-__pycache__
-*.pyc
-venv
-.venv
+.flake8
+k6-test.js
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Secrets and local config
+.env
+.env.*
+*.pem
+*.key
+
+# Logs, caches, docs
+*.log
+logs/
+.cache/
+*.md
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
