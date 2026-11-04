@@ -1,0 +1,8 @@
+.git
+.gitlab-ci.yml
+Jenkinsfile
+.cache
+__pycache__
+*.pyc
+venv
+.venv
