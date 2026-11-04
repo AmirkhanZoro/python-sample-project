@@ -38,10 +38,6 @@ build:
         docker push "$IMAGE_NAME:latest"
       fi
 
-# Required CI/CD variables (Settings > CI/CD > Variables):
-#   SSH_PRIVATE_KEY, DEPLOY_HOST, DEPLOY_USER, DEPLOY_PATH
-# Plus a deploy token named "gitlab-deploy-token" (read_registry), which GitLab
-# exposes as CI_DEPLOY_USER / CI_DEPLOY_PASSWORD.
 deploy:
   stage: deploy
   image: alpine:3.20
