@@ -1,11 +1,16 @@
-from fastapi import FastAPI, HTTPException, Request
-import redis
+import os
 import logging
+import redis
+from fastapi import FastAPI, HTTPException, Request
 from pythonjsonlogger import jsonlogger
 
 app = FastAPI()
-redis_client = redis.Redis(host='redis', port=6379, db=0)
 
+redis_client = redis.Redis(
+    host=os.getenv("REDIS_HOST", "redis"),
+    port=int(os.getenv("REDIS_PORT", "6379")),
+    db=0,
+)
 
 # -------- Logging --------
 logHandler = logging.FileHandler("/var/log/app/app.log")
@@ -15,9 +20,11 @@ logger = logging.getLogger("fastapi-app")
 logger.setLevel(logging.INFO)
 logger.addHandler(logHandler)
 
+
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
-    logger.info("request_received", extra={"method": request.method,"path": request.url.path,"client": request.client.host})
+    client = request.client.host if request.client else "unknown"
+    logger.info("request_received", extra={"method": request.method, "path": request.url.path, "client": client})
     response = await call_next(request)
     logger.info("response_sent", extra={"status_code": response.status_code})
     return response
@@ -32,6 +39,7 @@ def read_root():
         raise HTTPException(status_code=404, detail="Key not found")
     logger.info("redis_key_read", extra={"key": "example_key"})
     return {"message": value}
+
 
 @app.post("/write/{key}")
 def write_to_redis(key: str, value: str):
