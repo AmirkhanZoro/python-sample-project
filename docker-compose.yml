@@ -1,6 +1,8 @@
 services:
   api:
     build: .
+    # CI/CD sets APP_IMAGE to the tagged image; locally it falls back to the build.
+    image: ${APP_IMAGE:-fastapi-redis:latest}
     ports:
       - "8000:8000"
     depends_on:
@@ -12,11 +14,12 @@ services:
       - applogs:/var/log/app
     logging:
       driver: json-file
+    restart: unless-stopped
 
   redis:
     image: redis:7-alpine
-    # No "ports" entry: Redis is reachable only from other services
-    # on the compose network (the api service), not from the host.
+    # No "ports" entry: Redis is reachable only from the api service.
+    restart: unless-stopped
 
 volumes:
   applogs:
