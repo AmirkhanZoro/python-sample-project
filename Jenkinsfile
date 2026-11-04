@@ -51,8 +51,8 @@ pipeline {
 
   post {
     failure {
-      mail to: 'devops@lobos.com',
-           subject: "Lobos-Sample-Project Pipeline Failed (#${env.BUILD_NUMBER})",
+      mail to: 'devops@example.com',
+           subject: "Sample-Project Pipeline Failed (#${env.BUILD_NUMBER})",
            body: "Build ${env.BUILD_URL} failed. Check the Jenkins logs."
     }
   }
