@@ -1,4 +1,4 @@
-fastapi==0.110.0
-redis==5.0.3
-uvicorn==0.29.0
-python-json-logger==2.0.7
+fastapi
+uvicorn[standard]
+redis
+python-json-logger
